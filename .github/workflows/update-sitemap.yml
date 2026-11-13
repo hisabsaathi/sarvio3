@@ -1,0 +1,35 @@
+name: Auto Update Sitemaps
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data/tools.json' # जब भी tools.json में बदलाव होगा
+      - 'generate-sitemap.js'
+
+permissions:
+  contents: write
+
+jobs:
+  build-sitemaps:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Generate Sitemaps
+        run: node generate-sitemap.js
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'GitHub Action Bot'
+          git config --global user.email 'action@github.com'
+          git add *.xml
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update sitemaps [skip ci]" && git push)
