@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sarvio3.sarvio3.workers.dev/sitemap.xml
