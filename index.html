@@ -1978,7 +1978,15 @@ async function submitNewTool(){
   if($("modeBulk")) $("modeBulk").onclick=function(){ setAddMode("bulk"); };
   setAddMode("single");
 })();
-
+// नई फाइल से डिस्क्रिप्शन लोड करें
+let DESCRIPTIONS = {};
+fetch('data/descriptions.json')
+  .then(response => response.json())
+  .then(data => {
+      DESCRIPTIONS = data;
+      console.log("Descriptions loaded successfully!");
+  })
+  .catch(err => console.error("Error loading descriptions:", err));
 try{ setTheme(); }catch(e){}
 /* boot theme */
 try {
