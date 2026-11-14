@@ -1095,7 +1095,7 @@ function draw(){
     const missing = t.url ? '' : '<span class="warn">लिंक की पुष्टि बाकी</span>';
     const reported = typeof hasReported==="function" && hasReported(t.key||t.url);
     const reportBtn = t.url ? ('<button type="button" class="report-btn'+(reported?' done':'')+'" data-key="'+esc(t.key||'')+'" data-name="'+esc(t.name)+'" data-url="'+esc(t.url)+'" onclick="reportBroken(this)">'+(reported?(lang==="hi"?"Reported":"Reported"):(lang==="hi"?"Report":"Report"))+'</button>') : '';
-    return '<article class="card"'+(t.url?' data-open-url="'+esc(t.url)+'" tabindex="0" role="link" aria-label="Open '+esc(t.name)+'"':'')+'><div class="card-head">'+logoHtml(t)+heading+'</div><p>'+esc(t.desc)+'</p><div class="tags">'+tags+'<span class="price">'+esc(t.price)+'</span>'+missing+reportBtn+'<button type="button" class="star '+star+'" data-key="'+esc(t.key)+'" aria-label="Add favorite" aria-pressed="'+(star?"true":"false")+'" onclick="toggleFav(this)">★</button></div>'+(t.url?'<div class="open-hint">'+(lang==="hi"?"खोलें ↗":"Open ↗")+'</div>':'')+'</article>';
+    return '<article class="card"'+(t.url?' data-open-url="'+esc(t.url)+'" tabindex="0" role="link" aria-label="Open '+esc(t.name)+'"':'')+'><div class="card-head">'+logoHtml(t)+heading+'</div><p>'+esc(DESCRIPTIONS[t.slug] || t.desc || "No description")+'</p><div class="tags">'+tags+'<span class="price">'+esc(t.price)+'</span>'+missing+reportBtn+'<button type="button" class="star '+star+'" data-key="'+esc(t.key)+'" aria-label="Add favorite" aria-pressed="'+(star?"true":"false")+'" onclick="toggleFav(this)">★</button></div>'+(t.url?'<div class="open-hint">'+(lang==="hi"?"खोलें ↗":"Open ↗")+'</div>':'')+'</article>';
   }
   var qv=($("q")&&$("q").value)||"";
   var cv=$("catSel")?$("catSel").value:"all";
@@ -1985,6 +1985,7 @@ fetch('data/descriptions.json')
   .then(data => {
       DESCRIPTIONS = data;
       console.log("Descriptions loaded successfully!");
+    if(typeof draw === "function") draw();
   })
   .catch(err => console.error("Error loading descriptions:", err));
 try{ setTheme(); }catch(e){}
