@@ -1980,7 +1980,7 @@ async function submitNewTool(){
 })();
 // नई फाइल से डिस्क्रिप्शन लोड करें
 let DESCRIPTIONS = {};
-fetch('data/descriptions.json')
+fetch('data/descriptions.json?v=' + Date.now())
   .then(response => response.json())
   .then(data => {
       DESCRIPTIONS = data;
